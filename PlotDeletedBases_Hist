@@ -1,0 +1,44 @@
+%% get data
+[num txt raw] = xlsread("Tabla_heatmap_PorMes_PorLinaje.csv")
+
+%% make a vector with all deleted bases
+deletedbases=[]
+for i=1:length(num)
+    deletedbases= [deletedbases num(i,5):num(i,6)]
+end
+
+%% Plot histogram with deleted bases
+figure(4)
+clf
+hold on
+
+i=42;  # the position in y where the drwing ends  
+ % Plots drawing of the genomic region
+plot([27394 27759], [i+4 i+4], '-b', 'linewidth', 2  ) # I got these numbers from https://www.ncbi.nlm.nih.gov/projects/sviewer/?id=NC_045512&tracks=[key:sequence_track,name:Sequence,display_name:Sequence,id:STD649220238,annots:Sequence,ShowLabel:false,ColorGaps:false,shown:true,order:1][key:gene_model_track,name:Genes,display_name:Genes,id:STD3194982005,annots:Unnamed,Options:ShowAllButGenes,CDSProductFeats:true,NtRuler:true,AaRuler:true,HighlightMode:2,ShowLabel:true,shown:true,order:9]&v=1:29903&c=null&select=null&slim=0
+text(27494, i+2, 'ORF7a' )
+plot([27756 27887], [i+4 i+4], '-r', 'linewidth', 2  )
+text(27756, i+2, 'ORF7b' )
+plot([27894 28259], [i+4 i+4], '-g', 'linewidth', 2  )
+text(27894+100, i+2, 'ORF8' )
+plot([27249 28409], [i+6 i+6], '-c', 'linewidth', 2  )
+
+plot([27394 27759], [-2.5 -2.5], '-b', 'linewidth', 2  )
+text(27494, -.75, 'ORF7a' )
+plot([27756 27887], [-2.5 -2.5], '-r', 'linewidth', 2  )
+text(27756, -.75, 'ORF7b' )
+plot([27894 28259], [-2.5 -2.5], '-g', 'linewidth', 2  )
+text(27894+100, -.75, 'ORF8' )
+ylim([-4 i+6.5])
+xlim([27100 29000])
+
+plot([27394 27394],[-2.5 i+4], 'b')
+plot([27759 27759],[-2.5 i+4], 'b')
+plot([27756 27756],[-2.5 i+4], 'r')
+plot([27887 27887],[-2.5 i+4], 'r')
+plot([27894 27894],[-2.5 i+4], 'g')
+plot([28259 28259],[-2.5 i+4], 'g')
+
+# aquí está el histograma
+hist(deletedbases,max(deletedbases)-min(deletedbases))
+ylabel('# de veces que se encontró deletado ese nt')
+xlabel('Coordenada en SARS-CoV-2 Whu-1')
