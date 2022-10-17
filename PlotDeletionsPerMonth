@@ -1,0 +1,52 @@
+%% get data
+[num txt raw] = xlsread("Tabla_heatmap_PorMes.csv")
+
+%% plot Deletions per month
+figure(2)
+clear toname
+toname=[]
+clf
+for i=1:length(num)
+    plot( [num(i,5) num(i,6)],  [i i], '.-k')
+    hold on
+    text(num(i,6)+10,i, num2str(num(i,7)), 'fontsize', 7 )
+    if i>1 
+        if strcmp(actual, txt(i+1,8)) % Pa' saber si es del mismo linaje que'l anterior
+            toname = [toname ""]
+        else
+            toname = [toname txt(i+1,8)]
+            actual = txt(i+1,8)
+        end
+        if ~strcmp(mesactual, txt(i+1,4))
+            plot([27000, 29200], [i-.5 i-.5], ':', 'color', [.5 .5 .5])
+            text(28800, i-2, mesactual)
+            mesactual = txt(i+1,4);
+        end
+    else
+        toname = [toname txt(i+1,8)]
+        actual = txt(i+1,8)
+        mesactual = txt(i+1,4)
+    end
+end
+for hide=1
+text(28800, i-2, mesactual)
+plot([27394 27759], [i+4 i+4], '-b', 'linewidth', 2  )
+text(27494, i+2, 'ORF7a' )
+plot([27756 27887], [i+4 i+4], '-r', 'linewidth', 2  )
+text(27756, i+2, 'ORF7b' )
+plot([27894 28259], [i+4 i+4], '-g', 'linewidth', 2  )
+text(27894+100, i+2, 'ORF8' )
+plot([27249 28409], [i+6 i+6], '-c', 'linewidth', 2  )
+
+plot([27394 27759], [-2.5 -2.5], '-b', 'linewidth', 2  )
+text(27494, -.5, 'ORF7a' )
+plot([27756 27887], [-2.5 -2.5], '-r', 'linewidth', 2  )
+text(27756, -.5, 'ORF7b' )
+plot([27894 28259], [-2.5 -2.5], '-g', 'linewidth', 2  )
+text(27894+100, -.5, 'ORF8' )
+plot([27249 28409], [-4 -4], '.-c', 'linewidth', 2  )
+ylim([-4.5 i+6.5])
+xlim([27100 29100])
+end % plot de elementos complementarios
+
+set(gca, 'ytick', 1:length(num), 'yticklabel', toname, 'xtick',27200:400:29200 ) % toname o txt(2:end, 8)
